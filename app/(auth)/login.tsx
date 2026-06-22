@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import AuthHeader from '@/components/AuthHeader'
 import { Button, TextInput } from 'react-native-paper'
 import { Colors } from '@/constants/Colors'
+import { useRouter } from 'expo-router'
 
 
 const Login = () => {
@@ -11,6 +12,8 @@ const Login = () => {
 
   //para controlar si se muestra la contraseña
   const [showPassword, setShowPassword] = useState(false)
+
+  const router = useRouter()
 
 
 
@@ -82,7 +85,7 @@ const Login = () => {
 
                 <View style={styles.registrate}>
                     <Text>¿No tenés cuenta?</Text>
-                    <TouchableOpacity onPress={() =>console.log("Registrate")}>
+                    <TouchableOpacity onPress= { () => router.push('/role')}>
                         <Text style={styles.texttouch}>Crear cuenta</Text>
                     </TouchableOpacity>
                 </View>

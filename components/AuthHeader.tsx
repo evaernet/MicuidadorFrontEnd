@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     container:{
         paddingTop:20,
         backgroundColor: Colors.primary,
-        height:200
+        height:'auto'
     },
 
     containerheader:{
