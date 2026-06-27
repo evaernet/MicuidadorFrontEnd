@@ -27,9 +27,10 @@ const AuthHeader = ({titulo, subtitulo}: AuthHeaderProps) => {
 
 const styles = StyleSheet.create({
     container:{
-        paddingTop:20,
+        paddingTop:16,
         backgroundColor: Colors.primary,
-        height:'auto'
+        height:'auto',
+        paddingBottom:16
     },
 
     containerheader:{

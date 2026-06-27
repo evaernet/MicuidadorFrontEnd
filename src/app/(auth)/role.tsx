@@ -31,7 +31,7 @@ const Role = () => {
           style={styles.card}
           >
           <Card.Content style={styles.cardcontainer}>
-            <MaterialIcons name="pets" size={40} color={Colors.primary} />
+            <MaterialIcons name="pets" size={48} color={Colors.primaryDark} />
             <PaperText variant="titleLarge"style={styles.textcard}>Dueño de mascota</PaperText>
             <PaperText variant="titleSmall" style={styles.textcard}>Buscá hospedaje y reservá para tu mascota</PaperText>
           </Card.Content>
@@ -42,9 +42,9 @@ const Role = () => {
           style={styles.card}
           >
           <Card.Content style={styles.cardcontainer}>
-            <FontAwesome5 name="house-user" size={40} color={Colors.primary} />
+            <FontAwesome5 name="house-user" size={48} color={Colors.primaryDark} />
             <PaperText variant="titleLarge" style={styles.textcard}>Cuidador</PaperText>
-            <PaperText variant="titleSmall" style={styles.textcard}>Ofrecé tu hogar y gana dinero</PaperText>
+            <PaperText variant="titleSmall" style={styles.textcard}>Ofrecé tu hogar y generá ingresos cuidando mascotas</PaperText>
           </Card.Content>
           </Card>
 
@@ -62,7 +62,8 @@ const styles= StyleSheet.create({
     width:'80%',
     backgroundColor: Colors.surface,
     height:'auto',
-    borderColor:Colors.border,    
+    borderColor:Colors.border,
+    borderWidth:2    
   },
   containerCards:{
     alignItems:'center',
