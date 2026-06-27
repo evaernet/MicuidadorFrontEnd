@@ -56,9 +56,9 @@ const Login = () => {
 
         <Button
           mode="contained"
-          onPress={() => router.replace("/(tabs)/index")}
+          onPress={() => router.replace("/(tabs)")}
           style={styles.buttoningresar}
-          labelStyle={{ color: Colors.surface, fontSize: 18, fontWeight: 400 }}
+          labelStyle={{ color: Colors.surface, fontSize: 18 }}
         >
           Ingresar
         </Button>
