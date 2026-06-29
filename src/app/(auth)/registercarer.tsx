@@ -1,22 +1,25 @@
 import AppButton from "@/components/AppButton";
 import AuthHeader from "@/components/AuthHeader";
 import InputField from "@/components/InputField";
+import StepIndicator from "@/components/StepIndicator";
 import { Colors } from "@/constants/Colors";
+import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Divider, IconButton } from "react-native-paper";
-import { SafeAreaView as SafeAreaViewRN } from "react-native-safe-area-context"; // ← este, no el de react-native
 
 const Registercarer = () => {
+  const router = useRouter();
+  const insets = useSafeAreaInsets();
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
   const [telefono, setTelefono] = useState("");
 
   return (
-    <SafeAreaViewRN style={styles.container}>
-      <View>
-        <AuthHeader titulo="Crear cuenta" subtitulo="Completá tus datos" />
-      </View>
+    <View style={styles.container}>
+      <AuthHeader titulo="Ser cuidador" subtitulo="" />
+      <StepIndicator total={3} current={1} label="Paso 1 de 3 — Perfil Personal" />
       <View style={styles.containerphotoprofile}>
         <View style={styles.containeraddphoto}>
           <IconButton icon="plus" size={30} onPress={() => {}} />
@@ -52,17 +55,17 @@ const Registercarer = () => {
         Tu teléfono solo se comparte con el dueño una vez que aceptás una
         reserva.
       </Text>
-      <View style={styles.nextbuttom}>
-        <AppButton onPress={() => {}}>Continuar</AppButton>
+      <View style={[styles.nextbuttom, { paddingBottom: insets.bottom + 16 }]}>
+        <AppButton onPress={() => router.push("/registercarer2")}>Continuar</AppButton>
       </View>
-    </SafeAreaViewRN>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: Colors.surface,
   },
   inputcontainer: {
     paddingHorizontal: 16,

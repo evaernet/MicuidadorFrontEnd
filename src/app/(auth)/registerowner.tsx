@@ -4,7 +4,7 @@ import InputField from "@/components/InputField";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const Registerowner = () => {
   const [nombre, setNombre] = useState("");
@@ -12,9 +12,10 @@ const Registerowner = () => {
   const [password, setpassword] = React.useState("");
   const [repeat, setRepeat] = React.useState("");
   const router = useRouter();
+  const insets = useSafeAreaInsets();
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <AuthHeader titulo="Crear cuenta" subtitulo="Completá tus datos" />
 
       <View style={styles.inputcontainer}>
@@ -56,12 +57,12 @@ const Registerowner = () => {
           <Text style={{ color: "blue" }}>Términos y condiciones</Text>
         </Text>
       </View>
-      <View style={styles.containerboton}>
+      <View style={[styles.containerboton, { paddingBottom: insets.bottom + 16 }]}>
         <AppButton onPress={() => router.replace("/verify")}>
           Registrarme
         </AppButton>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 const styles = StyleSheet.create({

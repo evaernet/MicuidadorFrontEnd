@@ -1,213 +1,212 @@
-import React, { useState } from 'react'
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { Button, Chip, RadioButton } from 'react-native-paper'  // componentes de Paper
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { useRouter } from 'expo-router'
-import { Ionicons } from '@expo/vector-icons'
-import AuthHeader from '@/components/AuthHeader'
-import InputField from '@/components/InputField'
-import StepIndicator from '@/components/StepIndicator'
-import { Colors } from '@/constants/Colors'
+import AppButton from "@/components/AppButton";
+import AuthHeader from "@/components/AuthHeader";
+import InputField from "@/components/InputField";
+import StepIndicator from "@/components/StepIndicator";
+import { Colors } from "@/constants/Colors";
+import { useRouter } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
+import { useState } from "react";
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Chip, Divider, IconButton } from "react-native-paper";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-// ─── Tipos de vivienda disponibles ───────────────────────────────────
-// Definimos las opciones como constante para no repetir strings en el código.
-// Cada opción tiene un value (lo que guardamos) y un label (lo que muestra el usuario).
-const TIPOS_VIVIENDA = [
-  { value: 'casa_patio', label: 'Casa con patio' },
-  { value: 'casa',       label: 'Casa' },
-  { value: 'quinta',     label: 'Quinta/campo' },
-  { value: 'depto',      label: 'Departamento' },
-]
 
-// ─── Tamaños de mascotas ──────────────────────────────────────────────
-const TAMANOS = ['Miniatura', 'Pequeño', 'Mediano', 'Grande']
+const Registercarer2 = () => {
+  const router = useRouter();
+  const insets = useSafeAreaInsets();
 
-const RegisterCarerStep2 = () => {
-  const router = useRouter()
+  // Tipo de vivienda seleccionada
+  const [vivienda, setVivienda] = useState("casa");
 
-  // Estado para el tipo de vivienda. RadioButton.Group solo permite un valor a la vez.
-  const [tipoVivienda, setTipoVivienda] = useState('casa_patio')
+  // Descripción del hogar
+  const [descripcion, setDescripcion] = useState("");
+  const [mascotas, setMascotas] = useState("");
 
-  // Estado para descripción y mascotas propias
-  const [descripcion, setDescripcion] = useState('')
-  const [mascotasPropias, setMascotasPropias] = useState('')
+  // Animales que acepta (puede ser más de uno, por eso usamos booleanos separados)
+  const [perro, setPerro] = useState(false);
+  const [gato, setGato] = useState(false);
 
-  // Estado para qué animales acepta. Son dos booleans independientes.
-  const [aceptaPerro, setAceptaPerro] = useState(false)
-  const [aceptaGato, setAceptaGato] = useState(false)
+  // Tamaños que acepta (array, puede tener varios)
+  const [tamaños, setTamaños] = useState<string[]>([]);
 
-  // Estado para tamaños. Es un array porque se pueden elegir varios.
-  // Empieza vacío: []
-  const [tamanos, setTamanos] = useState<string[]>([])
-
-  // Esta función agrega o quita un tamaño del array cuando el usuario toca el chip.
-  const toggleTamano = (tamano: string) => {
-    // includes() verifica si el valor ya está en el array.
-    if (tamanos.includes(tamano)) {
-      // Si ya está, lo filtramos (lo sacamos): devuelve todos los que NO son ese tamaño.
-      setTamanos(tamanos.filter((t) => t !== tamano))
+  // Agrega o quita un tamaño del array
+  const toggleTamaño = (tamaño: string) => {
+    if (tamaños.includes(tamaño)) {
+      setTamaños(tamaños.filter((t) => t !== tamaño)); // lo quita
     } else {
-      // Si no está, lo agregamos con spread: [...tamanos, tamano] = todos los anteriores + el nuevo.
-      setTamanos([...tamanos, tamano])
+      setTamaños([...tamaños, tamaño]); // lo agrega
     }
-  }
+  };
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+    <View style={styles.container}>
+      <AuthHeader titulo="Ser cuidador" subtitulo="" />
+      <StepIndicator total={3} current={2} label="Paso 2 de 3 — Tu hospedaje" />
 
-        <AuthHeader titulo="Ser cuidador" subtitulo="" />
+      <ScrollView contentContainerStyle={[styles.scroll, { paddingBottom: insets.bottom + 16 }]}>
+        {/* Tipo de vivienda — tarjetas con ícono */}
+        <Text style={styles.seccionTitulo}>Tipo de vivienda</Text>
+        <View style={styles.gridVivienda}>
+          {[
+            { value: "casa_patio", label: "Casa con patio", icon: "home-outline" },
+            { value: "casa",       label: "Casa",           icon: "home" },
+            { value: "quinta",     label: "Quinta/campo",   icon: "leaf-outline" },
+            { value: "depto",      label: "Departamento",   icon: "business-outline" },
+          ].map((op) => (
+            <TouchableOpacity
+              key={op.value}
+              style={[styles.opcionVivienda, vivienda === op.value && styles.opcionActiva]}
+              onPress={() => setVivienda(op.value)}
+            >
+              <Ionicons
+                name={op.icon as any}
+                size={28}
+                color={vivienda === op.value ? Colors.primary : Colors.textSecondary}
+              />
+              <Text style={[styles.opcionLabel, vivienda === op.value && styles.opcionLabelActiva]}>
+                {op.label}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
 
-        <StepIndicator total={3} current={2} label="Paso 2 de 3 — Tu hospedaje" />
+        <Divider style={styles.divider} />
 
-        <View style={styles.form}>
+        {/* Foto del hogar */}
+        <Text style={styles.seccionTitulo}>Fotos del hospedaje (mínimo 3)</Text>
+        <View style={styles.containeraddphoto}>
+          <IconButton icon="plus" size={30} onPress={() => {}} />
+        </View>
 
-          {/* ── Tipo de vivienda ── */}
-          <Text style={styles.seccion}>Tipo de vivienda</Text>
+        <Divider style={styles.divider} />
 
-          {/* RadioButton.Group de Paper: solo permite seleccionar una opción a la vez. */}
-          {/* value = el valor actualmente seleccionado. */}
-          {/* onValueChange = función que se llama cuando el usuario elige otro. */}
-          <RadioButton.Group value={tipoVivienda} onValueChange={setTipoVivienda}>
-            <View style={styles.radioGrid}>
-              {TIPOS_VIVIENDA.map((tipo) => (
-                // RadioButton.Item muestra el radio + el label juntos.
-                // position="leading" pone el círculo a la izquierda del texto.
-                <RadioButton.Item
-                  key={tipo.value}
-                  value={tipo.value}
-                  label={tipo.label}
-                  position="leading"
-                  style={styles.radioItem}
-                  labelStyle={styles.radioLabel}
-                  color={Colors.primary}   // color del radio cuando está seleccionado
-                />
-              ))}
-            </View>
-          </RadioButton.Group>
-
-          {/* ── Fotos del hospedaje ── */}
-          <Text style={styles.seccion}>Fotos del hospedaje (mínimo 3)</Text>
-          <TouchableOpacity style={styles.fotoBox}>
-            <Ionicons name="add" size={28} color={Colors.textSecondary} />
-          </TouchableOpacity>
-
-          {/* ── Descripción ── */}
+        <View style={styles.inputs}>
           <InputField
             label="Descripción del hogar"
             value={descripcion}
             onChangeText={setDescripcion}
-            placeholder="Contá cómo es tu espacio para las mascotas"
-            multiline
+            placeholder="Ej: Vivo en una casa con patio, cerca de un parque. Me encantan los animales y tengo experiencia cuidando perros y gatos."
           />
-
-          {/* ── Mascotas propias ── */}
           <InputField
             label="¿Tenés mascotas propias?"
-            value={mascotasPropias}
-            onChangeText={setMascotasPropias}
-            placeholder="Ej: un gato castrado de 3 años"
+            value={mascotas}
+            onChangeText={setMascotas}
+            placeholder="Ej: Sí, tengo 2 gatos"
           />
+        </View>
 
-          {/* ── Aceptás ── */}
-          <Text style={styles.seccion}>Aceptás</Text>
+        <Divider style={styles.divider} />
 
-          {/* Chip de Paper: botón tipo etiqueta que se puede seleccionar y deseleccionar. */}
-          {/* selected = si está activo o no. */}
-          {/* onPress = función que se llama al tocarlo. Invierte el valor con ! */}
-          <View style={styles.chips}>
-            <Chip
-              selected={aceptaPerro}
-              onPress={() => setAceptaPerro(!aceptaPerro)}
-              selectedColor={Colors.primary}
-              style={[styles.chip, aceptaPerro && styles.chipSeleccionado]}
-            >
-              Perro
-            </Chip>
-
-            <Chip
-              selected={aceptaGato}
-              onPress={() => setAceptaGato(!aceptaGato)}
-              selectedColor={Colors.primary}
-              style={[styles.chip, aceptaGato && styles.chipSeleccionado]}
-            >
-              Gato
-            </Chip>
-          </View>
-
-          {/* ── Tamaños ── */}
-          <Text style={styles.seccion}>Tamaños que aceptás</Text>
-          <View style={styles.chips}>
-            {TAMANOS.map((t) => (
-              <Chip
-                key={t}
-                selected={tamanos.includes(t)}   // includes() devuelve true si el tamaño está en el array
-                onPress={() => toggleTamano(t)}
-                selectedColor={Colors.primary}
-                style={[styles.chip, tamanos.includes(t) && styles.chipSeleccionado]}
-              >
-                {t}
-              </Chip>
-            ))}
-          </View>
-
-          <Button
-            mode="contained"
-            buttonColor={Colors.primary}
-            style={styles.boton}
-            onPress={() => router.push('/registercarer3')}
+        {/* Chips de animales que acepta */}
+        <Text style={styles.seccionTitulo}>Aceptás</Text>
+        <View style={styles.chips}>
+          <Chip
+            selected={perro}
+            onPress={() => setPerro(!perro)}
+            style={perro ? styles.chipActivo : styles.chip}
+            textStyle={{ color: perro ? Colors.surface : Colors.textPrimary }}
           >
-            Continuar
-          </Button>
+            Perro
+          </Chip>
+          <Chip
+            selected={gato}
+            onPress={() => setGato(!gato)}
+            style={gato ? styles.chipActivo : styles.chip}
+            textStyle={{ color: gato ? Colors.surface : Colors.textPrimary }}
+          >
+            Gato
+          </Chip>
+        </View>
 
+        {/* Chips de tamaños */}
+        <Text style={styles.seccionTitulo}>Tamaños que aceptás</Text>
+        <View style={styles.chips}>
+          {["Miniatura", "Pequeño", "Mediano", "Grande"].map((t) => (
+            <Chip
+              key={t}
+              selected={tamaños.includes(t)}
+              onPress={() => toggleTamaño(t)}
+              style={tamaños.includes(t) ? styles.chipActivo : styles.chip}
+              textStyle={{
+                color: tamaños.includes(t)
+                  ? Colors.surface
+                  : Colors.textPrimary,
+              }}
+            >
+              {t}
+            </Chip>
+          ))}
+        </View>
+
+        <View style={styles.boton}>
+          <AppButton onPress={() => router.push("/registercarer3")}>
+            Continuar
+          </AppButton>
         </View>
       </ScrollView>
-    </SafeAreaView>
-  )
-}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.surface,
   },
-  form: {
-    paddingHorizontal: 20,
+  scroll: {
+    padding: 16,
     gap: 12,
-    paddingBottom: 32,
   },
-  seccion: {
+  seccionTitulo: {
     fontSize: 14,
-    fontWeight: '700',
+    fontWeight: "600",
     color: Colors.textPrimary,
     marginTop: 8,
   },
-  radioGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',    // cuando no entran en una fila, saltan a la siguiente
+  gridVivienda: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 10,
   },
-  radioItem: {
-    width: '50%',        // 2 opciones por fila
-    paddingVertical: 4,
-  },
-  radioLabel: {
-    fontSize: 13,
-    color: Colors.textPrimary,
-  },
-  fotoBox: {
-    width: 80,
-    height: 80,
-    borderRadius: 8,
-    borderWidth: 1.5,
-    borderStyle: 'dashed',
+  opcionVivienda: {
+    width: "47%",           // 2 columnas con gap
+    borderWidth: 1,
     borderColor: Colors.border,
-    justifyContent: 'center',
-    alignItems: 'center',
+    borderRadius: 10,
+    padding: 12,
+    alignItems: "center",
+    gap: 6,
     backgroundColor: Colors.surface,
   },
+  opcionActiva: {
+    borderColor: Colors.primary,
+    backgroundColor: Colors.primaryLight,
+  },
+  opcionLabel: {
+    fontSize: 13,
+    color: Colors.textSecondary,
+    textAlign: "center",
+  },
+  opcionLabelActiva: {
+    color: Colors.primary,
+    fontWeight: "600",
+  },
+  containeraddphoto: {
+    width: 80,
+    height: 80,
+    borderWidth: 2,
+    borderStyle: "dashed",
+    borderColor: Colors.primary,
+    borderRadius: 16,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  inputs: {
+    gap: 12,
+  },
   chips: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
     gap: 8,
   },
   chip: {
@@ -215,15 +214,18 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.border,
   },
-  chipSeleccionado: {
-    backgroundColor: Colors.primaryLight,
+  chipActivo: {
+    backgroundColor: Colors.primary,
+    borderWidth: 1,
     borderColor: Colors.primary,
   },
-  boton: {
-    width: '100%',
-    paddingVertical: 4,
-    marginTop: 8,
+  divider: {
+    backgroundColor: Colors.border,
+    marginVertical: 4,
   },
-})
+  boton: {
+    marginTop: 16,
+  },
+});
 
-export default RegisterCarerStep2
+export default Registercarer2;

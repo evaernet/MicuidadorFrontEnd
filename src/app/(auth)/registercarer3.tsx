@@ -1,181 +1,185 @@
-import React, { useState } from 'react'
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { Button, Checkbox } from 'react-native-paper'   // Checkbox de Paper para la declaración
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { useRouter } from 'expo-router'
-import { Ionicons } from '@expo/vector-icons'
-import AuthHeader from '@/components/AuthHeader'
-import InputField from '@/components/InputField'
-import StepIndicator from '@/components/StepIndicator'
-import { Colors } from '@/constants/Colors'
+import AppButton from "@/components/AppButton";
+import AuthHeader from "@/components/AuthHeader";
+import InputField from "@/components/InputField";
+import StepIndicator from "@/components/StepIndicator";
+import { Colors } from "@/constants/Colors";
+import { useRouter } from "expo-router";
+import React, { useState } from "react";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { Checkbox, Divider, IconButton } from "react-native-paper";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-const RegisterCarerStep3 = () => {
-  const router = useRouter()
 
-  const [experiencia, setExperiencia] = useState('')
+// Componente interno para cada foto que hay que subir
+// Lo definimos acá arriba porque solo se usa en esta pantalla
+const FotoSlot = ({ label }: { label: string }) => (
+  <View style={styles.fotoSlot}>
+    <View style={styles.containeraddphoto}>
+      <IconButton icon="plus" size={24} onPress={() => {}} />
+    </View>
+    <Text style={styles.fotoLabel}>{label}</Text>
+  </View>
+);
 
-  // Checkbox de la declaración jurada.
-  // 'unchecked' y 'checked' son los dos valores que acepta Checkbox de Paper.
-  // Usamos el tipo que Paper espera: 'checked' | 'unchecked'
-  const [declaracion, setDeclaracion] = useState<'checked' | 'unchecked'>('unchecked')
+const Registercarer3 = () => {
+  const router = useRouter();
+  const insets = useSafeAreaInsets();
 
-  // Alterna entre checked y unchecked cuando el usuario toca el checkbox.
-  const toggleDeclaracion = () => {
-    setDeclaracion(declaracion === 'checked' ? 'unchecked' : 'checked')
-  }
+  const [experiencia, setExperiencia] = useState("");
+  const [declaracion, setDeclaracion] = useState(false); // checkbox
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+    <View style={styles.container}>
+      <AuthHeader titulo="Ser cuidador" subtitulo="" />
+      <StepIndicator total={3} current={3} label="Paso 3 de 3 — Identidad" />
 
-        <AuthHeader titulo="Ser cuidador" subtitulo="" />
+      <ScrollView contentContainerStyle={[styles.scroll, { paddingBottom: insets.bottom + 16 }]}>
 
-        <StepIndicator total={3} current={3} label="Paso 3 de 3 — Identidad" />
+        {/* Aviso de privacidad */}
+        <Text style={styles.aviso}>
+          Esta información es revisada por nuestro equipo antes de publicar tu
+          hospedaje. Solo la ve el equipo de MiCuidador.
+        </Text>
 
-        <View style={styles.form}>
+        <Divider style={styles.divider} />
 
-          {/* Aviso de privacidad */}
-          <Text style={styles.aviso}>
-            Esta información es revisada por nuestro equipo antes de publicar tu
-            hospedaje. Solo la ve el equipo de MiCuidador.
-          </Text>
+        {/* DNI */}
+        <Text style={styles.seccionTitulo}>DNI</Text>
+        <View style={styles.filaDni}>
+          <FotoSlot label="Frente" />
+          <FotoSlot label="Dorso" />
+        </View>
 
-          {/* ── DNI ── */}
-          <Text style={styles.seccion}>DNI</Text>
-          <View style={styles.fotoRow}>
-            <FotoSlot label="Frente" />
-            <FotoSlot label="Dorso" />
-          </View>
+        <Divider style={styles.divider} />
 
-          {/* ── Selfie ── */}
-          <Text style={styles.seccion}>Selfie con DNI</Text>
-          <FotoSlot label="Foto tuya sosteniendo el DNI" ancho />
+        {/* Selfie con DNI */}
+        <Text style={styles.seccionTitulo}>Selfie con DNI</Text>
+        <View style={styles.filaFoto}>
+          <IconButton icon="account-circle" size={40} iconColor={Colors.textSecondary} onPress={() => {}} />
+          <Text style={styles.selfieTexto}>Foto tuya sosteniendoel DNI{"\n"}Para verificar tu identidad</Text>
+        </View>
 
-          {/* ── Fotos del domicilio ── */}
-          <Text style={styles.seccion}>Fotos del domicilio</Text>
-          <View style={styles.fotoRow}>
-            <FotoSlot label="Fachada" />
-            <FotoSlot label="Interior" />
-            <FotoSlot label="Patio" />
-          </View>
+        <Divider style={styles.divider} />
 
-          {/* ── Experiencia ── */}
-          <InputField
-            label="Experiencia con animales"
-            value={experiencia}
-            onChangeText={setExperiencia}
-            placeholder="Contá tu experiencia cuidando mascotas"
-            multiline
+        {/* Fotos del domicilio */}
+        <Text style={styles.seccionTitulo}>Fotos del domicilio</Text>
+        <View style={styles.filaDni}>
+          <FotoSlot label="Fachada" />
+          <FotoSlot label="Interior" />
+          <FotoSlot label="Patio" />
+        </View>
+
+        <Divider style={styles.divider} />
+
+        {/* Experiencia */}
+        <InputField
+          label="Experiencia con animales"
+          value={experiencia}
+          onChangeText={setExperiencia}
+          placeholder="Ej: Dr. García · 3624-555123"
+        />
+
+        {/* Checkbox declaración jurada */}
+        <View style={styles.checkboxFila}>
+          <Checkbox.Android
+            status={declaracion ? "checked" : "unchecked"}
+            onPress={() => setDeclaracion(!declaracion)}
+            color={Colors.primary}
           />
+          <Text style={styles.checkboxTexto}>
+            Declaro que mi hogar es un espacio apto y seguro para el cuidado de mascotas.
+          </Text>
+        </View>
 
-          {/* ── Declaración jurada ── */}
-          {/* TouchableOpacity en el row completo para que sea fácil de tocar */}
-          <TouchableOpacity style={styles.declaracionRow} onPress={toggleDeclaracion}>
-            {/* Checkbox.Android fuerza el estilo material en ambas plataformas */}
-            <Checkbox.Android
-              status={declaracion}         // 'checked' o 'unchecked'
-              onPress={toggleDeclaracion}
-              color={Colors.primary}       // color verde cuando está marcado
-            />
-            <Text style={styles.declaracionText}>
-              Declaro que mi hogar es un espacio apto y seguro para el cuidado de mascotas.
-            </Text>
-          </TouchableOpacity>
-
-          {/* El botón está deshabilitado si el checkbox no está marcado */}
-          {/* disabled={declaracion !== 'checked'} → true si NO está chequeado */}
-          <Button
-            mode="contained"
-            buttonColor={Colors.primary}
-            style={styles.boton}
-            disabled={declaracion !== 'checked'}
-            onPress={() => router.replace('/(tabs)')}
+        <View style={styles.boton}>
+          {/* El botón solo se activa cuando el checkbox está marcado */}
+          <AppButton
+            disabled={!declaracion}
+            onPress={() => router.replace("/success")}
           >
             Enviar para revisión
-          </Button>
-
+          </AppButton>
         </View>
-      </ScrollView>
-    </SafeAreaView>
-  )
-}
 
-// ─── Componente interno: slot de foto ─────────────────────────────────
-// Lo definimos acá abajo porque solo se usa en esta pantalla.
-// Recibe label (texto) y ancho (opcional, para que ocupe todo el ancho).
-const FotoSlot = ({ label, ancho }: { label: string; ancho?: boolean }) => (
-  <TouchableOpacity style={[styles.fotoBox, ancho && styles.fotoBoxAncho]}>
-    <Ionicons name="camera-outline" size={22} color={Colors.textSecondary} />
-    <Text style={styles.fotoLabel}>{label}</Text>
-  </TouchableOpacity>
-)
+      </ScrollView>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.surface,
   },
-  form: {
-    paddingHorizontal: 20,
+  scroll: {
+    padding: 16,
     gap: 12,
-    paddingBottom: 32,
   },
   aviso: {
     fontSize: 13,
     color: Colors.textSecondary,
     lineHeight: 20,
-    backgroundColor: Colors.surfaceVariant,
-    padding: 12,
-    borderRadius: 8,
   },
-  seccion: {
+  seccionTitulo: {
     fontSize: 14,
-    fontWeight: '700',
+    fontWeight: "600",
     color: Colors.textPrimary,
     marginTop: 8,
   },
-  fotoRow: {
-    flexDirection: 'row',
-    gap: 10,
+  filaDni: {
+    flexDirection: "row",
+    gap: 12,
+    flexWrap: "wrap",
   },
-  fotoBox: {
-    flex: 1,               // cada slot ocupa el mismo espacio disponible
-    height: 72,
-    borderRadius: 8,
-    borderWidth: 1.5,
-    borderStyle: 'dashed',
-    borderColor: Colors.border,
-    backgroundColor: Colors.surface,
-    justifyContent: 'center',
-    alignItems: 'center',
+  fotoSlot: {
+    alignItems: "center",
     gap: 4,
   },
-  fotoBoxAncho: {
-    flex: 0,               // anula el flex: 1
-    width: '100%',         // ocupa todo el ancho
-    height: 80,
+  containeraddphoto: {
+    width: 72,
+    height: 72,
+    borderWidth: 2,
+    borderStyle: "dashed",
+    borderColor: Colors.primary,
+    borderRadius: 12,
+    justifyContent: "center",
+    alignItems: "center",
   },
   fotoLabel: {
-    fontSize: 11,
+    fontSize: 12,
     color: Colors.textSecondary,
   },
-  declaracionRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',  // alinea arriba para que el texto largo no rompa el layout
+  filaFoto: {
+    flexDirection: "row",
+    alignItems: "center",
     gap: 8,
-    marginTop: 8,
+    backgroundColor: Colors.surfaceVariant,
+    borderRadius: 8,
+    padding: 8,
   },
-  declaracionText: {
-    flex: 1,               // ocupa el espacio restante después del checkbox
+  selfieTexto: {
     fontSize: 13,
-    color: Colors.textPrimary,
+    color: Colors.textSecondary,
     lineHeight: 20,
   },
+  checkboxFila: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+  },
+  checkboxTexto: {
+    flex: 1,
+    fontSize: 13,
+    color: Colors.textSecondary,
+    lineHeight: 20,
+  },
+  divider: {
+    backgroundColor: Colors.border,
+    marginVertical: 4,
+  },
   boton: {
-    width: '100%',
-    paddingVertical: 4,
     marginTop: 8,
   },
-})
+});
 
-export default RegisterCarerStep3
+export default Registercarer3;

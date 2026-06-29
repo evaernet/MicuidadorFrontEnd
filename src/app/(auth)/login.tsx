@@ -3,6 +3,7 @@ import { Colors } from "@/constants/Colors";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Button, TextInput } from "react-native-paper";
 
 const Login = () => {
@@ -13,6 +14,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const router = useRouter();
+  const insets = useSafeAreaInsets(); // espacio que necesita cada teléfono abajo
 
   return (
     <View style={styles.container}>
@@ -77,7 +79,7 @@ const Login = () => {
             />
           </TouchableOpacity>
 
-          <View style={styles.registrate}>
+          <View style={[styles.registrate, { paddingBottom: insets.bottom }]}>
             <Text>¿No tenés cuenta?</Text>
             <TouchableOpacity onPress={() => router.push("/role")}>
               <Text style={styles.texttouch}>Crear cuenta</Text>

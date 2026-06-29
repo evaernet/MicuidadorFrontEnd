@@ -4,9 +4,7 @@ import { useRouter } from 'expo-router'
 import AuthHeader from '@/components/AuthHeader';
 import { Card, Text as PaperText } from 'react-native-paper';
 import { Colors } from '@/constants/Colors';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';    //para usar iconos con react native paper
-import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { Ionicons } from '@expo/vector-icons';
 const Rol = 'owner' | 'carer';
 
 const Role = () => {
@@ -31,7 +29,7 @@ const Role = () => {
           style={styles.card}
           >
           <Card.Content style={styles.cardcontainer}>
-            <MaterialIcons name="pets" size={48} color={Colors.primaryDark} />
+            <Ionicons name="paw" size={48} color={Colors.primaryDark} />
             <PaperText variant="titleLarge"style={styles.textcard}>Dueño de mascota</PaperText>
             <PaperText variant="titleSmall" style={styles.textcard}>Buscá hospedaje y reservá para tu mascota</PaperText>
           </Card.Content>
@@ -42,7 +40,7 @@ const Role = () => {
           style={styles.card}
           >
           <Card.Content style={styles.cardcontainer}>
-            <FontAwesome5 name="house-user" size={48} color={Colors.primaryDark} />
+            <Ionicons name="home" size={48} color={Colors.primaryDark} />
             <PaperText variant="titleLarge" style={styles.textcard}>Cuidador</PaperText>
             <PaperText variant="titleSmall" style={styles.textcard}>Ofrecé tu hogar y generá ingresos cuidando mascotas</PaperText>
           </Card.Content>
