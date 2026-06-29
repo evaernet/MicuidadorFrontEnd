@@ -1,53 +1,57 @@
-import { View, Text, StyleSheet } from 'react-native'
-import React from 'react'
-import { TextInput } from 'react-native-paper'
+import { Colors } from "@/constants/Colors";
+import React from "react";
+import { StyleSheet } from "react-native";
+import { TextInput } from "react-native-paper";
 
+// Estas son las props que acepta el componente.
+// El signo ? significa que son opcionales.
 type InputFieldProps = {
-    label:string     // el texto de la label flotante
-    value:string        // lo que hay escrito ahora
-    onChangeText : (text : string) => void    // función para actualizar el valor
-    placeholder?:string     // función para actualizar el valor
-    error?:boolean         // opcional, pone borde rojo
-    secureTextEntry?:boolean     // opcional, para contraseñas
-    keyboardType?:'default' | 'email-address' | 'numeric'  // opcional
-    right?:React.ReactNode      // opcional, ícono a la derecha
-
-}
+  label: string; // texto que flota arriba cuando escribís
+  value: string; // el valor actual del input
+  onChangeText: (text: string) => void; // función que se llama cada vez que escribís
+  placeholder?: string; // texto gris de fondo cuando está vacío
+  secureTextEntry?: boolean; // true = muestra puntos (para contraseñas)
+  keyboardType?: "default" | "email-address" | "numeric"; // tipo de teclado
+  error?: boolean; // true = borde rojo
+  right?: React.ReactNode; // ícono a la derecha (ej: ojo de contraseña)
+};
 
 const InputField = ({
-    label,
-    value,
-    onChangeText,
-    secureTextEntry,
-    placeholder,
-    keyboardType = 'default',
-    right,
-    error = false,
-
+  label,
+  value,
+  onChangeText,
+  placeholder,
+  secureTextEntry,
+  keyboardType = "default",
+  error = false,
+  right,
 }: InputFieldProps) => {
   return (
     <TextInput
-    mode="outlined"   // borde completo alrededor
-    label={label}     // la label que sube cuando tocás
-    value={value}   // el valor actual que viene de afuera
-    onChangeText={onChangeText}
-    placeholder={placeholder}
-    secureTextEntry={secureTextEntry}    // true = muestra ••••
-    keyboardType={keyboardType}
-    error={error}             // true = borde y label en rojo
-    right={right}     
-    style={styles.input}        // ícono opcional a la derecha
+      mode="outlined" // estilo con borde alrededor
+      label={label}
+      value={value}
+      onChangeText={onChangeText}
+      placeholder={placeholder}
+      secureTextEntry={secureTextEntry}
+      keyboardType={keyboardType}
+      error={error}
+      right={right}
+      style={styles.input}
+      theme={{
+        colors: {
+          background: Colors.surface, // color de fondo del input
+        },
+        roundness: 8, // ← acá va el border radius en Paper
+      }}
     />
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
-    input:{
-        width:'50%',
-        height:20
+  input: {
+    width: "100%", // ocupa todo el ancho del contenedor padre
+  },
+});
 
-    }
-
-})
-
-export default InputField
+export default InputField;

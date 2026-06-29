@@ -1,9 +1,9 @@
+import AppButton from "@/components/AppButton";
 import AuthHeader from "@/components/AuthHeader";
 import InputField from "@/components/InputField";
-import { Colors } from "@/constants/Colors";
 import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { Button, TextInput } from "react-native-paper";
+import { StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Registerowner = () => {
   const [nombre, setNombre] = useState("");
@@ -12,54 +12,69 @@ const Registerowner = () => {
   const [repeat, setRepeat] = React.useState("");
 
   return (
-    <View>
+    <SafeAreaView style={styles.container}>
       <AuthHeader titulo="Crear cuenta" subtitulo="Completá tus datos" />
-      <InputField
-        label="Nombre"
-        value={nombre}
-        onChangeText={setNombre}
-        placeholder="Juan Perez"
-      />
 
-      <TextInput
-        mode="outlined"
-        label="Email"
-        value={email}
-        onChangeText={(email) => setEmail(email)}
-      />
-      <TextInput
-        mode="outlined"
-        label="Contraseña"
-        value={password}
-        onChangeText={(password) => setpassword(password)}
-      />
+      <View style={styles.inputcontainer}>
+        <InputField
+          label="nombre"
+          value={nombre}
+          onChangeText={setNombre}
+          placeholder="Juan Perez"
+        ></InputField>
 
-      <TextInput
-        mode="outlined"
-        label="Repetir Contraseña"
-        value={repeat}
-        placeholder="Repetir contraseña"
-        onChangeText={(repeat) => setRepeat(repeat)}
-      />
+        <InputField
+          label="email"
+          value={email}
+          onChangeText={setEmail}
+          placeholder="juan@ejemplo.com"
+          keyboardType="email-address"
+        ></InputField>
 
-      <View style={styles.containerboton}>
-        <Button
-          mode="contained"
-          buttonColor={Colors.primary}
-          style={styles.boton}
-          onPress={() => console.log("Pressed")}
-        >
-          Registrarme
-        </Button>
+        <InputField
+          label="contraseña"
+          value={password}
+          onChangeText={setpassword}
+          placeholder="Ingrese su contraseña"
+          secureTextEntry={true}
+        ></InputField>
+
+        <InputField
+          label="repetir contraseña"
+          value={repeat}
+          onChangeText={setRepeat}
+          placeholder="Repetir contraseña"
+          secureTextEntry={true}
+        ></InputField>
       </View>
-    </View>
+      <View style={styles.textCondiciones}>
+        <Text>
+          {" "}
+          Al registrarte aceptás los 
+          <Text style={{ color: "blue" }}>Términos y condiciones</Text>
+        </Text>
+      </View>
+      <View style={styles.containerboton}>
+        <AppButton onPress={() => console.log("Pressed")}>
+          Registrarme
+        </AppButton>
+      </View>
+    </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({
-  boton: {
-    width: "90%",
-  },
   containerboton: {
+    padding: 16,
+  },
+  inputcontainer: {
+    padding: 16,
+    gap: 16,
+  },
+  container: {
+    flex: 1,
+  },
+  textCondiciones: {
+    padding: 16,
     alignItems: "center",
   },
 });
