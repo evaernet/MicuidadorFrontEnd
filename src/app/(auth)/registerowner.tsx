@@ -1,6 +1,7 @@
 import AppButton from "@/components/AppButton";
 import AuthHeader from "@/components/AuthHeader";
 import InputField from "@/components/InputField";
+import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -10,6 +11,7 @@ const Registerowner = () => {
   const [email, setEmail] = React.useState("");
   const [password, setpassword] = React.useState("");
   const [repeat, setRepeat] = React.useState("");
+  const router = useRouter();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -55,7 +57,7 @@ const Registerowner = () => {
         </Text>
       </View>
       <View style={styles.containerboton}>
-        <AppButton onPress={() => console.log("Pressed")}>
+        <AppButton onPress={() => router.replace("/verify")}>
           Registrarme
         </AppButton>
       </View>

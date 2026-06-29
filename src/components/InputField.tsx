@@ -11,7 +11,7 @@ type InputFieldProps = {
   onChangeText: (text: string) => void; // función que se llama cada vez que escribís
   placeholder?: string; // texto gris de fondo cuando está vacío
   secureTextEntry?: boolean; // true = muestra puntos (para contraseñas)
-  keyboardType?: "default" | "email-address" | "numeric"; // tipo de teclado
+  keyboardType?: "default" | "email-address" | "phone-pad" | "numeric"; // tipo de teclado
   error?: boolean; // true = borde rojo
   right?: React.ReactNode; // ícono a la derecha (ej: ojo de contraseña)
 };
