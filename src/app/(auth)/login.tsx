@@ -21,7 +21,7 @@ const Login = () => {
     //async le dice a la funcion que va a ser asincrona, es decir que va a esperar una respuesta del servidor
     //Guardo la funcion en una variable(constante)
     try {
-      const respuesta = await fetch("http://192.168.100.5:8000/api/login", {
+      const respuesta = await fetch("http://192.168.0.9:8000/api/login", {
         //fetch es una funcion de JS que sirve para mandar petiicones y esperar respuestas del servidor, en este caso le paso la url y un objeto con los datos que quiero mandar
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -43,6 +43,18 @@ const Login = () => {
       console.error("Error al iniciar sesión:", error);
     }
   };
+
+  //   Usuario toca el botón
+  //       ↓
+  // handleRegister() se ejecuta
+  //       ↓
+  // axios manda los datos a Laravel
+  //       ↓
+  // Laravel valida, crea el usuario, responde 201
+  //       ↓
+  // router.replace lleva al OTP
+  //       ↓
+  // Si algo falla → alert muestra el error
 
   return (
     <View style={styles.container}>
